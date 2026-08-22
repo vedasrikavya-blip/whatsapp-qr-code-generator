@@ -1,0 +1,84 @@
+name: Deploy GitHub Page
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Pages artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Render static site
+        env:
+          VARIABLE1: ${{ vars.VARIABLE1 }}
+          VARIABLE2: ${{ vars.VARIABLE2 }}
+          VARIABLE3: ${{ vars.VARIABLE3 }}
+          VARIABLE4: ${{ vars.VARIABLE4 }}
+          VARIABLE5: ${{ vars.VARIABLE5 }}
+          VARIABLE6: ${{ vars.VARIABLE6 }}
+          VARIABLE7: ${{ vars.VARIABLE7 }}
+          VARIABLE8: ${{ vars.VARIABLE8 }}
+          VARIABLE9: ${{ vars.VARIABLE9 }}
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          shopt -s dotglob
+
+          for source_path in * .[^.]*; do
+            if [ ! -e "${source_path}" ]; then
+              continue
+            fi
+
+            case "${source_path}" in
+              .git|.github|dist|scripts)
+                continue
+                ;;
+            esac
+
+            cp -R "${source_path}" dist/
+          done
+
+          perl -0pi -e 's/<!-- VARIABLE1 -->/$ENV{"VARIABLE1"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE2 -->/$ENV{"VARIABLE2"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE3 -->/$ENV{"VARIABLE3"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE4 -->/$ENV{"VARIABLE4"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE5 -->/$ENV{"VARIABLE5"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE6 -->/$ENV{"VARIABLE6"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE7 -->/$ENV{"VARIABLE7"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE8 -->/$ENV{"VARIABLE8"}/g' dist/index.html
+          perl -0pi -e 's/<!-- VARIABLE9 -->/$ENV{"VARIABLE9"}/g' dist/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

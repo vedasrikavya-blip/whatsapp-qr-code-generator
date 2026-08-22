@@ -1,0 +1,14 @@
+{
+  "name": "whatsapp-qr-code-generator",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.cache/
+.tmp/
+tests/
+docs/
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+.vercel
