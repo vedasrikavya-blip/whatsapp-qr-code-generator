@@ -1,0 +1,19 @@
+{
+  "repo_name": "whatsapp-qr-code-gen",
+  "description": "A responsive static tool for creating direct WhatsApp chat QR codes with pre-filled messages, PNG and SVG downloads, and shareable setup links.",
+  "visibility": "public",
+  "homepage": "https://vedasrikavya-blip.github.io/whatsapp-qr-code-gen/",
+  "topics": [
+    "whatsapp-qr-code",
+    "whatsapp-link-generator",
+    "qr-code-generator",
+    "github-pages-tool",
+    "static-web-app",
+    "progressive-web-app",
+    "vanilla-javascript"
+  ],
+  "default_branch": "main",
+  "create_readme": false,
+  "source_stack": "html + css + js",
+  "pages_stack": "html + css + js"
+}
